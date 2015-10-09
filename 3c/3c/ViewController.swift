@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +34,37 @@ class ViewController: UIViewController {
             
             session.startRunning()
             
+            let vedioOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
+            vedioOutput.videoSettings = NSDictionary(dictionary: [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]) as [NSObject : AnyObject]
+            session.addOutput(vedioOutput)
+            
+            let queue: dispatch_queue_t = dispatch_queue_create("vedio", nil)
+            vedioOutput.setSampleBufferDelegate(self, queue: queue)
+            
         }catch{
             print("error vedio input")
         }
+    }
+    
+    func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
+        let image = imageFromSampleBuffer(sampleBuffer)
+        print(image)
+    }
+    
+    func imageFromSampleBuffer(sampleBuffer: CMSampleBufferRef) -> UIImage{
+        let imageBuffer: CVImageBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer)!
+        CVPixelBufferLockBaseAddress(imageBuffer, 0)
+        let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
+        let width = CVPixelBufferGetWidth(imageBuffer)
+        let height = CVPixelBufferGetHeight(imageBuffer)
+        let colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()!
+        let context: CGContextRef = CGBitmapContextCreate(baseAddress, width, height, 8, bytesPerRow, colorSpace, CGImageAlphaInfo.PremultipliedFirst.rawValue)!
+        let quartzImage: CGImageRef = CGBitmapContextCreateImage(context)!
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0)
         
+        let image: UIImage = UIImage(CGImage: quartzImage)
+        return image
     }
 
     override func didReceiveMemoryWarning() {
