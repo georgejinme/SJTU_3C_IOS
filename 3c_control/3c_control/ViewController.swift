@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UITabBarController {
+    
+    var vedioView: UIImageView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +25,9 @@ class ViewController: UITabBarController {
     }
     
     func initVedioView(){
-        let vedioView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
-        vedioView.backgroundColor = UIColor.blueColor()
-        self.view.addSubview(vedioView)
+        vedioView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
+        //vedioView.backgroundColor = UIColor.blueColor()
+        self.view.addSubview(vedioView!)
     }
     
     func startSocketConnect(){
@@ -34,15 +36,22 @@ class ViewController: UITabBarController {
         if (success){
             if let client = server.accept(){
                 print("new client from: " + client.addr + ":" + "\(client.port)")
-                while (true){
-                    let data = client.read(1024 * 10)
-                    print(data)
-                }
+                NSTimer.scheduledTimerWithTimeInterval(1.0 / 30, target: self, selector: "readImage:", userInfo: client, repeats: true)
             }else{
                 print("accept error")
             }
         }else{
             print("listen: " + msg)
+        }
+    }
+    
+    func readImage(timer: NSTimer){
+        let data = (timer.userInfo as! TCPClient).read(1024 * 3)
+        print(data)
+        let image = UIImage(data: NSData(bytes: data!, length: data!.count))
+        if (image != nil){
+            vedioView?.image = image
+            print(image)
         }
     }
 

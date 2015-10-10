@@ -50,8 +50,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         let image = imageFromSampleBuffer(sampleBuffer)
+        let data = UIImagePNGRepresentation(image)
         if (connected){
-            let (success, errmsg) = client!.send(str: "hello")
+            let (success, errmsg) = client!.send(data: data!)
             if (success){
                 print("success")
             }else{
