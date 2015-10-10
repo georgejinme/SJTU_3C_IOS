@@ -34,8 +34,10 @@ class ViewController: UITabBarController {
         if (success){
             if let client = server.accept(){
                 print("new client from: " + client.addr + ":" + "\(client.port)")
-                let data = client.read(1024 * 10)
-                print(data)
+                while (true){
+                    let data = client.read(1024 * 10)
+                    print(data)
+                }
             }else{
                 print("accept error")
             }

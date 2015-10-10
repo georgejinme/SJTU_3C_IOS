@@ -10,9 +10,11 @@ import UIKit
 import AVFoundation
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-
+    var client: TCPClient?
+    var connected = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        startSocketConnect()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -48,7 +50,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         let image = imageFromSampleBuffer(sampleBuffer)
-        startSocketConnect()
+        if (connected){
+            let (success, errmsg) = client!.send(str: "hello")
+            if (success){
+                print("success")
+            }else{
+                print("send: " + errmsg)
+            }
+        }
         //print(image)
     }
     
@@ -74,15 +83,11 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     }
     
     func startSocketConnect(){
-        let client: TCPClient = TCPClient(addr: "192.168.1.127", port: 80)
-        let (success, errmsg) = client.connect(timeout: 10)
+        client = TCPClient(addr: "192.168.1.127", port: 80)
+        let (success, errmsg) = client!.connect(timeout: 3600)
         if (success){
-            let (success, errmsg) = client.send(str: "hello")
-            if (success){
-                print("success")
-            }else{
-                print("send: " + errmsg)
-            }
+            connected = true
+            print("success")
         }else{
             print("connection: " + errmsg)
         }
