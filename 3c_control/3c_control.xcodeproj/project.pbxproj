@@ -14,6 +14,9 @@
 		FF61E4461BC88D670000441C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF61E4441BC88D670000441C /* LaunchScreen.storyboard */; };
 		FF61E4511BC88D670000441C /* _c_controlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4501BC88D670000441C /* _c_controlTests.swift */; };
 		FF61E45C1BC88D670000441C /* _c_controlUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E45B1BC88D670000441C /* _c_controlUITests.swift */; };
+		FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4691BC88E1B0000441C /* ButtonControlController.swift */; settings = {ASSET_TAGS = (); }; };
+		FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E46B1BC88EA60000441C /* SoundControlController.swift */; settings = {ASSET_TAGS = (); }; };
+		FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E46D1BC88EC10000441C /* GestureControlController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,9 @@
 		FF61E4571BC88D670000441C /* 3c_controlUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 3c_controlUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF61E45B1BC88D670000441C /* _c_controlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _c_controlUITests.swift; sourceTree = "<group>"; };
 		FF61E45D1BC88D670000441C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF61E4691BC88E1B0000441C /* ButtonControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonControlController.swift; sourceTree = "<group>"; };
+		FF61E46B1BC88EA60000441C /* SoundControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundControlController.swift; sourceTree = "<group>"; };
+		FF61E46D1BC88EC10000441C /* GestureControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureControlController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,9 @@
 				FF61E4421BC88D670000441C /* Assets.xcassets */,
 				FF61E4441BC88D670000441C /* LaunchScreen.storyboard */,
 				FF61E4471BC88D670000441C /* Info.plist */,
+				FF61E4691BC88E1B0000441C /* ButtonControlController.swift */,
+				FF61E46B1BC88EA60000441C /* SoundControlController.swift */,
+				FF61E46D1BC88EC10000441C /* GestureControlController.swift */,
 			);
 			path = 3c_control;
 			sourceTree = "<group>";
@@ -256,7 +265,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF61E43E1BC88D670000441C /* ViewController.swift in Sources */,
+				FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */,
+				FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */,
 				FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */,
+				FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
