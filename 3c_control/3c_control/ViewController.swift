@@ -12,12 +12,19 @@ class ViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        initVedioView()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func initVedioView(){
+        let vedioView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
+        vedioView.backgroundColor = UIColor.blueColor()
+        self.view.addSubview(vedioView)
     }
 
 

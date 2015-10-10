@@ -58,10 +58,10 @@
             </objects>
             <point key="canvasLocation" x="756" y="-814"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--View Controller-->
         <scene sceneID="WFZ-Ta-dlY">
             <objects>
-                <tabBarController id="AWF-IN-CJ0" sceneMemberID="viewController">
+                <tabBarController id="AWF-IN-CJ0" customClass="ViewController" customModule="_c_control" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="oJu-vc-AED">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
