@@ -17,6 +17,9 @@
 		FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4691BC88E1B0000441C /* ButtonControlController.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E46B1BC88EA60000441C /* SoundControlController.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E46D1BC88EC10000441C /* GestureControlController.swift */; settings = {ASSET_TAGS = (); }; };
+		FF61E47A1BC8B1450000441C /* ysocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4771BC8B1450000441C /* ysocket.swift */; settings = {ASSET_TAGS = (); }; };
+		FF61E47B1BC8B1450000441C /* ytcpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4781BC8B1450000441C /* ytcpsocket.c */; settings = {ASSET_TAGS = (); }; };
+		FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4791BC8B1450000441C /* ytcpsocket.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,10 @@
 		FF61E4691BC88E1B0000441C /* ButtonControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonControlController.swift; sourceTree = "<group>"; };
 		FF61E46B1BC88EA60000441C /* SoundControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundControlController.swift; sourceTree = "<group>"; };
 		FF61E46D1BC88EC10000441C /* GestureControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureControlController.swift; sourceTree = "<group>"; };
+		FF61E4761BC8B1440000441C /* 3c_control-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "3c_control-Bridging-Header.h"; sourceTree = "<group>"; };
+		FF61E4771BC8B1450000441C /* ysocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ysocket.swift; sourceTree = "<group>"; };
+		FF61E4781BC8B1450000441C /* ytcpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ytcpsocket.c; sourceTree = "<group>"; };
+		FF61E4791BC8B1450000441C /* ytcpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ytcpsocket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +110,9 @@
 		FF61E43A1BC88D670000441C /* 3c_control */ = {
 			isa = PBXGroup;
 			children = (
+				FF61E4771BC8B1450000441C /* ysocket.swift */,
+				FF61E4781BC8B1450000441C /* ytcpsocket.c */,
+				FF61E4791BC8B1450000441C /* ytcpsocket.swift */,
 				FF61E43B1BC88D670000441C /* AppDelegate.swift */,
 				FF61E43D1BC88D670000441C /* ViewController.swift */,
 				FF61E43F1BC88D670000441C /* Main.storyboard */,
@@ -112,6 +122,7 @@
 				FF61E4691BC88E1B0000441C /* ButtonControlController.swift */,
 				FF61E46B1BC88EA60000441C /* SoundControlController.swift */,
 				FF61E46D1BC88EC10000441C /* GestureControlController.swift */,
+				FF61E4761BC8B1440000441C /* 3c_control-Bridging-Header.h */,
 			);
 			path = 3c_control;
 			sourceTree = "<group>";
@@ -196,11 +207,13 @@
 		FF61E4301BC88D670000441C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "钩钩么么哒";
 				TargetAttributes = {
 					FF61E4371BC88D670000441C = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = DFKA9888HD;
 					};
 					FF61E44B1BC88D670000441C = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -264,11 +277,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF61E47A1BC8B1450000441C /* ysocket.swift in Sources */,
 				FF61E43E1BC88D670000441C /* ViewController.swift in Sources */,
 				FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */,
 				FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */,
+				FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */,
 				FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */,
 				FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */,
+				FF61E47B1BC8B1450000441C /* ytcpsocket.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,10 +424,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = 3c_control/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "primer.-c-control";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "3c_control/3c_control-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -419,10 +441,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = 3c_control/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "primer.-c-control";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "3c_control/3c_control-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -493,6 +520,7 @@
 				FF61E4621BC88D670000441C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FF61E4631BC88D670000441C /* Build configuration list for PBXNativeTarget "3c_controlTests" */ = {
 			isa = XCConfigurationList;
@@ -501,6 +529,7 @@
 				FF61E4651BC88D670000441C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FF61E4661BC88D670000441C /* Build configuration list for PBXNativeTarget "3c_controlUITests" */ = {
 			isa = XCConfigurationList;
@@ -509,6 +538,7 @@
 				FF61E4681BC88D670000441C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

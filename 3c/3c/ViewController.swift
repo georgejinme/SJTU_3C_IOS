@@ -48,7 +48,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         let image = imageFromSampleBuffer(sampleBuffer)
-        print(image)
+        startSocketConnect()
+        //print(image)
     }
     
     func imageFromSampleBuffer(sampleBuffer: CMSampleBufferRef) -> UIImage{
@@ -70,6 +71,21 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func startSocketConnect(){
+        let client: TCPClient = TCPClient(addr: "192.168.1.127", port: 80)
+        let (success, errmsg) = client.connect(timeout: 10)
+        if (success){
+            let (success, errmsg) = client.send(str: "hello")
+            if (success){
+                print("success")
+            }else{
+                print("send: " + errmsg)
+            }
+        }else{
+            print("connection: " + errmsg)
+        }
     }
 
 

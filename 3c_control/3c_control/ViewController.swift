@@ -13,6 +13,7 @@ class ViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initVedioView()
+        startSocketConnect()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -25,6 +26,22 @@ class ViewController: UITabBarController {
         let vedioView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
         vedioView.backgroundColor = UIColor.blueColor()
         self.view.addSubview(vedioView)
+    }
+    
+    func startSocketConnect(){
+        let server: TCPServer = TCPServer(addr: "192.168.1.127", port: 80)
+        let (success, msg) = server.listen()
+        if (success){
+            if let client = server.accept(){
+                print("new client from: " + client.addr + ":" + "\(client.port)")
+                let data = client.read(1024 * 10)
+                print(data)
+            }else{
+                print("accept error")
+            }
+        }else{
+            print("listen: " + msg)
+        }
     }
 
 
