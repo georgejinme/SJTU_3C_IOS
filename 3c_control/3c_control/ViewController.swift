@@ -26,7 +26,6 @@ class ViewController: UITabBarController {
     
     func initVedioView(){
         vedioView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
-        //vedioView.backgroundColor = UIColor.blueColor()
         self.view.addSubview(vedioView!)
     }
     
@@ -47,7 +46,6 @@ class ViewController: UITabBarController {
     
     func readImage(timer: NSTimer){
         let data = (timer.userInfo as! TCPClient).read(1024 * 3)
-        print(data)
         let image = UIImage(data: NSData(bytes: data!, length: data!.count))
         if (image != nil){
             vedioView?.image = image
