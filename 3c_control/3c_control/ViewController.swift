@@ -7,15 +7,18 @@
 //
 
 import UIKit
+import CoreBluetooth
 
-class ViewController: UITabBarController {
+class ViewController: UITabBarController, CBCentralManagerDelegate {
     
     var vedioView: UIImageView?
+    var blueTooth: CBCentralManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initVedioView()
-        startSocketConnect()
+        //startSocketConnect()
+        initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -51,6 +54,25 @@ class ViewController: UITabBarController {
             vedioView?.image = image
             print(image)
         }
+    }
+    
+    func initBlueTooth(){
+        blueTooth = CBCentralManager(delegate: self, queue: nil)
+        blueTooth?.delegate = self
+        blueTooth?.scanForPeripheralsWithServices(nil, options: nil)
+    }
+    
+    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
+        print("blue tooth did discover peripheral")
+        self.blueTooth?.connectPeripheral(peripheral, options: NSDictionary(dictionary: [CBConnectPeripheralOptionNotifyOnDisconnectionKey: NSNumber(bool: true)]) as? [String : AnyObject])
+    }
+    
+    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
+        print("blue tooth did connect")
+        
+    }
+    func centralManagerDidUpdateState(central: CBCentralManager) {
+        print("blue tooth state update")
     }
 
 
