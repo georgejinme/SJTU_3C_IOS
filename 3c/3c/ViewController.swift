@@ -10,11 +10,10 @@ import UIKit
 import AVFoundation
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-    var client: TCPClient?
-    var connected = false
+    var client: UDPClient?
     override func viewDidLoad() {
         super.viewDidLoad()
-        startSocketConnect()
+        client = UDPClient(addr: "192.168.1.127", port: 80)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -50,14 +49,13 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         let image = imageFromSampleBuffer(sampleBuffer)
-        let data = UIImagePNGRepresentation(image)
-        if (connected){
-            let (success, errmsg) = client!.send(data: data!)
-            if (success){
-                print("success")
-            }else{
-                print("send: " + errmsg)
-            }
+        let data = UIImageJPEGRepresentation(image, 1.0)
+        let imageData = data?.base64EncodedDataWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        let (success, errmsg) = client!.send(data: imageData!)
+        if (success){
+            print("success")
+        }else{
+            print("send: " + errmsg)
         }
         //print(image)
     }
@@ -82,18 +80,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func startSocketConnect(){
-        client = TCPClient(addr: "192.168.1.127", port: 80)
-        let (success, errmsg) = client!.connect(timeout: 3600)
-        if (success){
-            connected = true
-            print("success")
-        }else{
-            print("connection: " + errmsg)
-        }
-    }
-
 
 }
 

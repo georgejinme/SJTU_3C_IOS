@@ -17,6 +17,8 @@
 		FF61E4721BC8964D0000441C /* ysocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4701BC8964D0000441C /* ysocket.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E4731BC8964D0000441C /* ytcpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4711BC8964D0000441C /* ytcpsocket.c */; settings = {ASSET_TAGS = (); }; };
 		FF61E4751BC8AF840000441C /* ytcpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4741BC8AF840000441C /* ytcpsocket.swift */; settings = {ASSET_TAGS = (); }; };
+		FF9E2B581BCD3DE900C541F5 /* yudpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF9E2B561BCD3DE900C541F5 /* yudpsocket.c */; settings = {ASSET_TAGS = (); }; };
+		FF9E2B591BCD3DE900C541F5 /* yudpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9E2B571BCD3DE900C541F5 /* yudpsocket.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		FF61E4701BC8964D0000441C /* ysocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ysocket.swift; sourceTree = "<group>"; };
 		FF61E4711BC8964D0000441C /* ytcpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ytcpsocket.c; sourceTree = "<group>"; };
 		FF61E4741BC8AF840000441C /* ytcpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ytcpsocket.swift; sourceTree = "<group>"; };
+		FF9E2B561BCD3DE900C541F5 /* yudpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yudpsocket.c; sourceTree = "<group>"; };
+		FF9E2B571BCD3DE900C541F5 /* yudpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yudpsocket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				FF61E4701BC8964D0000441C /* ysocket.swift */,
 				FF61E4711BC8964D0000441C /* ytcpsocket.c */,
 				FF61E4741BC8AF840000441C /* ytcpsocket.swift */,
+				FF9E2B561BCD3DE900C541F5 /* yudpsocket.c */,
+				FF9E2B571BCD3DE900C541F5 /* yudpsocket.swift */,
 				FF61E4011BC7F8110000441C /* AppDelegate.swift */,
 				FF61E4031BC7F8110000441C /* ViewController.swift */,
 				FF61E4051BC7F8110000441C /* Main.storyboard */,
@@ -269,9 +275,11 @@
 			files = (
 				FF61E4721BC8964D0000441C /* ysocket.swift in Sources */,
 				FF61E4041BC7F8110000441C /* ViewController.swift in Sources */,
+				FF9E2B581BCD3DE900C541F5 /* yudpsocket.c in Sources */,
 				FF61E4731BC8964D0000441C /* ytcpsocket.c in Sources */,
 				FF61E4021BC7F8110000441C /* AppDelegate.swift in Sources */,
 				FF61E4751BC8AF840000441C /* ytcpsocket.swift in Sources */,
+				FF9E2B591BCD3DE900C541F5 /* yudpsocket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
