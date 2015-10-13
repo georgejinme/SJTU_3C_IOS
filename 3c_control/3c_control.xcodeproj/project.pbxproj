@@ -20,6 +20,8 @@
 		FF61E47A1BC8B1450000441C /* ysocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4771BC8B1450000441C /* ysocket.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E47B1BC8B1450000441C /* ytcpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4781BC8B1450000441C /* ytcpsocket.c */; settings = {ASSET_TAGS = (); }; };
 		FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4791BC8B1450000441C /* ytcpsocket.swift */; settings = {ASSET_TAGS = (); }; };
+		FF9E2B541BCD38C500C541F5 /* yudpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF9E2B521BCD38C500C541F5 /* yudpsocket.c */; settings = {ASSET_TAGS = (); }; };
+		FF9E2B551BCD38C500C541F5 /* yudpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9E2B531BCD38C500C541F5 /* yudpsocket.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		FF61E4771BC8B1450000441C /* ysocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ysocket.swift; sourceTree = "<group>"; };
 		FF61E4781BC8B1450000441C /* ytcpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ytcpsocket.c; sourceTree = "<group>"; };
 		FF61E4791BC8B1450000441C /* ytcpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ytcpsocket.swift; sourceTree = "<group>"; };
+		FF9E2B521BCD38C500C541F5 /* yudpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yudpsocket.c; sourceTree = "<group>"; };
+		FF9E2B531BCD38C500C541F5 /* yudpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yudpsocket.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,8 @@
 				FF61E4771BC8B1450000441C /* ysocket.swift */,
 				FF61E4781BC8B1450000441C /* ytcpsocket.c */,
 				FF61E4791BC8B1450000441C /* ytcpsocket.swift */,
+				FF9E2B521BCD38C500C541F5 /* yudpsocket.c */,
+				FF9E2B531BCD38C500C541F5 /* yudpsocket.swift */,
 				FF61E43B1BC88D670000441C /* AppDelegate.swift */,
 				FF61E43D1BC88D670000441C /* ViewController.swift */,
 				FF61E43F1BC88D670000441C /* Main.storyboard */,
@@ -282,6 +288,8 @@
 				FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */,
 				FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */,
 				FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */,
+				FF9E2B541BCD38C500C541F5 /* yudpsocket.c in Sources */,
+				FF9E2B551BCD38C500C541F5 /* yudpsocket.swift in Sources */,
 				FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */,
 				FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */,
 				FF61E47B1BC8B1450000441C /* ytcpsocket.c in Sources */,

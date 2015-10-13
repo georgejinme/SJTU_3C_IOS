@@ -17,7 +17,7 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         initVedioView()
-        //startSocketConnect()
+        startSocketConnect()
         initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -33,8 +33,8 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
     }
     
     func startSocketConnect(){
-        let server: TCPServer = TCPServer(addr: "192.168.1.127", port: 80)
-        let (success, msg) = server.listen()
+        let server: UDPServer = UDPServer(addr: "192.168.1.127", port: 80)
+        /*let (success, msg) = server.listen()
         if (success){
             if let client = server.accept(){
                 print("new client from: " + client.addr + ":" + "\(client.port)")
@@ -44,12 +44,18 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
             }
         }else{
             print("listen: " + msg)
-        }
+        }*/
+        NSTimer.scheduledTimerWithTimeInterval(1.0 / 30, target: self, selector: "readImage:", userInfo: server, repeats: true)
+        
     }
     
     func readImage(timer: NSTimer){
-        let data = (timer.userInfo as! TCPClient).read(1024 * 3)
-        let image = UIImage(data: NSData(bytes: data!, length: data!.count))
+        let (data, _, _) = (timer.userInfo as! UDPServer).recv(1024 * 7)
+        //let data = (timer.userInfo as! TCPClient).read(1024 * 3)
+        let imageStr = String(bytes: data!, encoding: NSUTF8StringEncoding)
+        let imageData = NSData(base64EncodedString: imageStr!, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+        let image = UIImage(data: imageData!)
+        //let image = UIImage(data: NSData(bytes: data!, length: data!.count))
         if (image != nil){
             vedioView?.image = image
             print(image)
