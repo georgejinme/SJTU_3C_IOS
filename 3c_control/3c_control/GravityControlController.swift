@@ -11,6 +11,10 @@ import UIKit
 import CoreMotion
 
 class GravityControlController: UIViewController{
+    var xl: UILabel?
+    var yl: UILabel?
+    var zl: UILabel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -47,6 +51,21 @@ class GravityControlController: UIViewController{
         down.text = "向下倾斜以倒退"
         down.textAlignment = NSTextAlignment.Center
         self.view.addSubview(down)
+        
+        xl = UILabel(frame: CGRectMake(0, self.view.frame.size.height - 350, self.view.frame.size.width / 3, 30))
+        xl?.text = "x:0"
+        xl?.textAlignment = NSTextAlignment.Center
+        self.view.addSubview(xl!)
+        
+        yl = UILabel(frame: CGRectMake(self.view.frame.size.width / 3, self.view.frame.size.height - 350, self.view.frame.size.width / 3, 30))
+        yl?.text = "y:0"
+        yl?.textAlignment = NSTextAlignment.Center
+        self.view.addSubview(yl!)
+        
+        zl = UILabel(frame: CGRectMake(self.view.frame.size.width / 3 * 2, self.view.frame.size.height - 350, self.view.frame.size.width / 3, 30))
+        zl?.text = "z:0"
+        zl?.textAlignment = NSTextAlignment.Center
+        self.view.addSubview(zl!)
     }
     
     func initAccelerometer(){
@@ -58,9 +77,11 @@ class GravityControlController: UIViewController{
                 if (error != nil){
                     motion.stopAccelerometerUpdates()
                 }else{
-                    print("x: \(accelerometerData!.acceleration.x)")
-                    print("y: \(accelerometerData!.acceleration.y)")
-                    print("z: \(accelerometerData!.acceleration.z)")
+                    dispatch_sync(dispatch_get_main_queue(), {
+                        self.xl?.text = "x: \(accelerometerData!.acceleration.x)"
+                        self.yl?.text = "y: \(accelerometerData!.acceleration.y)"
+                        self.zl?.text = "z: \(accelerometerData!.acceleration.z)"
+                    })
                 }
                 
             })
