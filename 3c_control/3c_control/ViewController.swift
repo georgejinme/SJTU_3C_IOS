@@ -17,7 +17,7 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         initVideoView()
-        startSocketConnect()
+        //startSocketConnect()
         //initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }

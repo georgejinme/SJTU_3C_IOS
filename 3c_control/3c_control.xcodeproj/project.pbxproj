@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF5B74D51BCE497C00B90C19 /* GravityControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B74D41BCE497C00B90C19 /* GravityControlController.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E43B1BC88D670000441C /* AppDelegate.swift */; };
 		FF61E43E1BC88D670000441C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E43D1BC88D670000441C /* ViewController.swift */; };
 		FF61E4411BC88D670000441C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF61E43F1BC88D670000441C /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF5B74D41BCE497C00B90C19 /* GravityControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GravityControlController.swift; sourceTree = "<group>"; };
 		FF61E4381BC88D670000441C /* 3c_control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 3c_control.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF61E43B1BC88D670000441C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF61E43D1BC88D670000441C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				FF61E4691BC88E1B0000441C /* ButtonControlController.swift */,
 				FF61E46B1BC88EA60000441C /* SoundControlController.swift */,
 				FF61E46D1BC88EC10000441C /* GestureControlController.swift */,
+				FF5B74D41BCE497C00B90C19 /* GravityControlController.swift */,
 				FF61E4761BC8B1440000441C /* 3c_control-Bridging-Header.h */,
 			);
 			path = 3c_control;
@@ -334,6 +337,7 @@
 				FF61E47A1BC8B1450000441C /* ysocket.swift in Sources */,
 				FF61E43E1BC88D670000441C /* ViewController.swift in Sources */,
 				FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */,
+				FF5B74D51BCE497C00B90C19 /* GravityControlController.swift in Sources */,
 				FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */,
 				FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */,
 				FF9E2B541BCD38C500C541F5 /* yudpsocket.c in Sources */,

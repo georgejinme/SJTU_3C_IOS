@@ -42,6 +42,24 @@
             </objects>
             <point key="canvasLocation" x="756" y="643"/>
         </scene>
+        <!--GravityControlController-->
+        <scene sceneID="3on-F7-i3f">
+            <objects>
+                <viewController id="U2X-IJ-mzJ" userLabel="GravityControlController" customClass="GravityControlController" customModule="_c_control" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Kmi-vW-XLw"/>
+                        <viewControllerLayoutGuide type="bottom" id="wqs-vD-GOk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CvB-Q4-Cu0">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Gravity" id="rpe-3e-1O7"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zRK-jr-0Wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-163.5" y="-902"/>
+        </scene>
         <!--ButtonControlController-->
         <scene sceneID="PwW-b9-E4H">
             <objects>
@@ -74,6 +92,7 @@
                         <segue destination="VsV-4a-gTi" kind="relationship" relationship="viewControllers" id="h1L-VT-Oiy"/>
                         <segue destination="0H5-Vd-YTK" kind="relationship" relationship="viewControllers" id="Q9H-yi-XSS"/>
                         <segue destination="5LC-X9-oiu" kind="relationship" relationship="viewControllers" id="0iK-48-JEE"/>
+                        <segue destination="U2X-IJ-mzJ" kind="relationship" relationship="viewControllers" id="D6r-gh-8lQ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vu7-P5-bet" userLabel="First Responder" sceneMemberID="firstResponder"/>
