@@ -18,7 +18,7 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
         super.viewDidLoad()
         initVideoView()
         //startSocketConnect()
-        //initBlueTooth()
+        initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -66,7 +66,16 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
         
     }
     func centralManagerDidUpdateState(central: CBCentralManager) {
-        print("blue tooth state update")
+        print("Central Manager is initialized")
+        switch central.state{
+        case CBCentralManagerState.Unauthorized:
+            print("The app is not authorized to use Bluetooth low energy")
+        case CBCentralManagerState.PoweredOff:
+            print("Bluetooth is currently powered off")
+        case CBCentralManagerState.PoweredOn:
+            print("Bluetooth is currently powered on and available to use")
+        default:break
+        }
     }
 
 
