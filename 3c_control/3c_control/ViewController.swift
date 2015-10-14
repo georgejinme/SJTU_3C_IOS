@@ -16,9 +16,9 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        initVedioView()
-        startSocketConnect()
-        initBlueTooth()
+        initVideoView()
+        //startSocketConnect()
+        //initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -27,8 +27,9 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func initVedioView(){
+    func initVideoView(){
         vedioView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
+        vedioView?.backgroundColor = UIColor.blueColor()
         self.view.addSubview(vedioView!)
     }
     
