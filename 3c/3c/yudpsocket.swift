@@ -76,6 +76,7 @@ public class UDPClient: YSocket {
     public func send(str s:String)->(Bool,String){
         if let fd:Int32=self.fd{
             let sendsize:Int32=c_yudpsocket_sentto(fd, buff: s, len: Int32(strlen(s)), ip: self.addr,port: Int32(self.port))
+            print(strlen(s))
             if sendsize==Int32(strlen(s)){
                 return (true,"send success")
             }else{

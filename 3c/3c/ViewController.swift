@@ -13,7 +13,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var client: UDPClient?
     override func viewDidLoad() {
         super.viewDidLoad()
-        client = UDPClient(addr: "192.168.1.127", port: 80)
+        client = UDPClient(addr: "192.168.1.130", port: 80)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -50,8 +50,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         let image = imageFromSampleBuffer(sampleBuffer)
         let data = UIImageJPEGRepresentation(image, 1.0)
-        let imageData = data?.base64EncodedDataWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-        let (success, errmsg) = client!.send(data: imageData!)
+        let imageData = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
+        let (success, errmsg) = client!.send(str: imageData!)
+        print(imageData!)
         if (success){
             print("success")
         }else{
