@@ -17,7 +17,6 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         initVideoView()
-        //startSocketConnect()
         //initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -31,24 +30,6 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
         vedioView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
         vedioView?.backgroundColor = UIColor.blueColor()
         self.view.addSubview(vedioView!)
-    }
-    
-    func startSocketConnect(){
-        let server: UDPServer = UDPServer(addr: "192.168.1.130", port: 80)
-        NSTimer.scheduledTimerWithTimeInterval(1.0 / 30, target: self, selector: "readImage:", userInfo: server, repeats: true)
-        
-    }
-    
-    func readImage(timer: NSTimer){
-        let (data, _, _) = (timer.userInfo as! UDPServer).recv(1024 * 7)
-        let imageRawData = String(bytes: data!, encoding: NSUTF8StringEncoding)
-        //print(imageRawData)
-        let imageData = NSData(base64EncodedString: imageRawData!, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
-        let image = UIImage(data: imageData!)
-        if (image != nil){
-            vedioView?.image = image
-            //print(image)
-        }
     }
     
     func initBlueTooth(){
