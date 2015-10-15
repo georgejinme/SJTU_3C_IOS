@@ -18,11 +18,6 @@
 		FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4691BC88E1B0000441C /* ButtonControlController.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E46B1BC88EA60000441C /* SoundControlController.swift */; settings = {ASSET_TAGS = (); }; };
 		FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E46D1BC88EC10000441C /* GestureControlController.swift */; settings = {ASSET_TAGS = (); }; };
-		FF61E47A1BC8B1450000441C /* ysocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4771BC8B1450000441C /* ysocket.swift */; settings = {ASSET_TAGS = (); }; };
-		FF61E47B1BC8B1450000441C /* ytcpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4781BC8B1450000441C /* ytcpsocket.c */; settings = {ASSET_TAGS = (); }; };
-		FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4791BC8B1450000441C /* ytcpsocket.swift */; settings = {ASSET_TAGS = (); }; };
-		FF9E2B541BCD38C500C541F5 /* yudpsocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FF9E2B521BCD38C500C541F5 /* yudpsocket.c */; settings = {ASSET_TAGS = (); }; };
-		FF9E2B551BCD38C500C541F5 /* yudpsocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9E2B531BCD38C500C541F5 /* yudpsocket.swift */; settings = {ASSET_TAGS = (); }; };
 		FF9E2B611BCD516100C541F5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FF9E2B601BCD516100C541F5 /* libz.tbd */; };
 		FF9E2B811BCD617500C541F5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF9E2B801BCD617500C541F5 /* Foundation.framework */; };
 		FF9E2B871BCD618A00C541F5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF9E2B861BCD618A00C541F5 /* UIKit.framework */; };
@@ -73,11 +68,6 @@
 		FF61E46B1BC88EA60000441C /* SoundControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundControlController.swift; sourceTree = "<group>"; };
 		FF61E46D1BC88EC10000441C /* GestureControlController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureControlController.swift; sourceTree = "<group>"; };
 		FF61E4761BC8B1440000441C /* 3c_control-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "3c_control-Bridging-Header.h"; sourceTree = "<group>"; };
-		FF61E4771BC8B1450000441C /* ysocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ysocket.swift; sourceTree = "<group>"; };
-		FF61E4781BC8B1450000441C /* ytcpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ytcpsocket.c; sourceTree = "<group>"; };
-		FF61E4791BC8B1450000441C /* ytcpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ytcpsocket.swift; sourceTree = "<group>"; };
-		FF9E2B521BCD38C500C541F5 /* yudpsocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yudpsocket.c; sourceTree = "<group>"; };
-		FF9E2B531BCD38C500C541F5 /* yudpsocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = yudpsocket.swift; sourceTree = "<group>"; };
 		FF9E2B601BCD516100C541F5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FF9E2B781BCD559C00C541F5 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
 		FF9E2B7C1BCD615C00C541F5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -164,11 +154,6 @@
 		FF61E43A1BC88D670000441C /* 3c_control */ = {
 			isa = PBXGroup;
 			children = (
-				FF61E4771BC8B1450000441C /* ysocket.swift */,
-				FF61E4781BC8B1450000441C /* ytcpsocket.c */,
-				FF61E4791BC8B1450000441C /* ytcpsocket.swift */,
-				FF9E2B521BCD38C500C541F5 /* yudpsocket.c */,
-				FF9E2B531BCD38C500C541F5 /* yudpsocket.swift */,
 				FF61E43B1BC88D670000441C /* AppDelegate.swift */,
 				FF61E43D1BC88D670000441C /* ViewController.swift */,
 				FF61E43F1BC88D670000441C /* Main.storyboard */,
@@ -334,17 +319,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF61E47A1BC8B1450000441C /* ysocket.swift in Sources */,
 				FF61E43E1BC88D670000441C /* ViewController.swift in Sources */,
 				FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */,
 				FF5B74D51BCE497C00B90C19 /* GravityControlController.swift in Sources */,
 				FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */,
-				FF61E47C1BC8B1450000441C /* ytcpsocket.swift in Sources */,
-				FF9E2B541BCD38C500C541F5 /* yudpsocket.c in Sources */,
-				FF9E2B551BCD38C500C541F5 /* yudpsocket.swift in Sources */,
 				FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */,
 				FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */,
-				FF61E47B1BC8B1450000441C /* ytcpsocket.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
