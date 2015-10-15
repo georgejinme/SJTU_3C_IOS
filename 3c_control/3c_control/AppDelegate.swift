@@ -18,6 +18,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let soundID = "appid=561d1815"
         IFlySpeechUtility.createUtility(soundID)
+        
+        EaseMob.sharedInstance().registerSDKWithAppKey("gougoumemeda#3c", apnsCertName: "com.gougoumemeda.3c")
+        EaseMob.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        if (NSUserDefaults.standardUserDefaults().objectForKey("user") == nil){
+            EaseMob.sharedInstance().chatManager.asyncRegisterNewAccount("3ccontrol", password: "941102", withCompletion: nil, onQueue: nil)
+            NSUserDefaults.standardUserDefaults().setObject("3ccontrol", forKey: "user")
+            NSUserDefaults.standardUserDefaults().setObject("941102", forKey: "password")
+        }
+        let username = NSUserDefaults.standardUserDefaults().objectForKey("user") as! String
+        let password = NSUserDefaults.standardUserDefaults().objectForKey("password") as! String
+        EaseMob.sharedInstance().chatManager.asyncLoginWithUsername(username, password: password, completion: {_, error in
+            if (error != nil){
+                print("login success")
+            }else{
+                print(error)
+            }
+        }, onQueue: nil)
         return true
     }
 
