@@ -9,14 +9,25 @@
 import UIKit
 import CoreBluetooth
 
-class ViewController: UITabBarController, CBCentralManagerDelegate {
+class ViewController: UITabBarController, CBCentralManagerDelegate, EMCallManagerDelegate {
     
-    var vedioView: UIImageView?
+    var vedioView: OpenGLView20?
     var blueTooth: CBCentralManager?
+    var videoCall: EMCallSession?
+    var statusLabel: UILabel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         initVideoView()
+        EaseMob.sharedInstance().chatManager.asyncLoginWithUsername("3ccontrol", password: "941102", completion: {userinfo, error in
+            if (error == nil){
+                print("login success")
+                print(userinfo)
+                self.initVideoCall()
+            }else{
+                print("login error")
+            }
+        }, onQueue: nil)
         //initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -27,9 +38,15 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
     }
     
     func initVideoView(){
-        vedioView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
-        vedioView?.backgroundColor = UIColor.blueColor()
+        vedioView = OpenGLView20(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
+        vedioView?.backgroundColor = UIColor.clearColor()
+        vedioView?.sessionPreset = AVCaptureSessionPreset352x288
         self.view.addSubview(vedioView!)
+        
+        statusLabel = UILabel(frame: CGRectMake(0, 20, self.view.frame.size.width, 30))
+        statusLabel?.text = "Status"
+        statusLabel?.textAlignment = NSTextAlignment.Center
+        self.view.addSubview(statusLabel!)
     }
     
     func initBlueTooth(){
@@ -58,6 +75,54 @@ class ViewController: UITabBarController, CBCentralManagerDelegate {
             print("Bluetooth is currently powered on and available to use")
         default:break
         }
+    }
+    
+    func initVideoCall(){
+        statusLabel?.text = "Call..."
+        EaseMob.sharedInstance().callManager.addDelegate(self, delegateQueue: nil)
+        videoCall = EaseMob.sharedInstance().callManager.asyncMakeVideoCall("3c", timeout: 5, error: nil)
+        videoCall?.displayView = self.vedioView
+        EaseMob.sharedInstance().callManager.processPreviewData(nil, width: 0, height: 0)
+    }
+    
+    func callSessionStatusChanged(callSession: EMCallSession!, changeReason reason: EMCallStatusChangedReason, error: EMError!) {
+        if (videoCall?.sessionId != callSession.sessionId){
+            return
+        }
+        if (error != nil){
+            let alert = UIAlertView(title: "Error", message: error.description, delegate: self, cancelButtonTitle: "Sure")
+            alert.show()
+            statusLabel?.text = "Call Fail"
+            return
+        }
+        if (callSession.status == EMCallSessionStatus.eCallSessionStatusDisconnected){
+            if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
+                statusLabel?.text = "Call Cancel"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Reject){
+                statusLabel?.text = "Call Reject"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Busy){
+                statusLabel?.text = "Call Busy"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Null){
+                statusLabel?.text = "Call Over(Me)"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Offline){
+                statusLabel?.text = "Call Offline"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_NoResponse){
+                statusLabel?.text = "Call No Response"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
+                statusLabel?.text = "Call Over(Other)"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Failure){
+                statusLabel?.text = "Call Fail"
+            }
+        }else if (callSession.status == EMCallSessionStatus.eCallSessionStatusAccepted){
+            if (callSession.connectType == EMCallConnectType.eCallConnectTypeRelay){
+                statusLabel?.text = "Call Speak Relay"
+            }else if (callSession.connectType == EMCallConnectType.eCallConnectTypeDirect){
+                statusLabel?.text = "Call Speak Direct"
+            }else{
+                statusLabel?.text = "Call Speak"
+            }
+        }
+        
     }
 
 
