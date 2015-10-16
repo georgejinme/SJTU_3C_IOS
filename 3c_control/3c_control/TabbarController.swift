@@ -94,7 +94,7 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, EMCallMana
     func initVideoCall(){
         statusLabel?.text = "Call..."
         EaseMob.sharedInstance().callManager.addDelegate(self, delegateQueue: nil)
-        videoCall = EaseMob.sharedInstance().callManager.asyncMakeVideoCall("3c", timeout: 5, error: nil)
+        videoCall = EaseMob.sharedInstance().callManager.asyncMakeVideoCall("3cvideo", timeout: 5, error: nil)
         videoCall?.displayView = self.vedioView
         EaseMob.sharedInstance().callManager.processPreviewData(nil, width: 0, height: 0)
     }

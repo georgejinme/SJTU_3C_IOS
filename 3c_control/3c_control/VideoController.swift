@@ -83,8 +83,12 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
     }
     
     func initVideoCall(videoSession: EMCallSession){
+        let refView = OpenGLView20(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
+        refView.backgroundColor = UIColor.clearColor()
+        refView.sessionPreset = AVCaptureSessionPreset352x288
+        
         let session: AVCaptureSession = AVCaptureSession()
-        session.sessionPreset = AVCaptureSessionPresetMedium
+        session.sessionPreset = refView.sessionPreset
         
         let device: AVCaptureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         do {
@@ -101,12 +105,12 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
             session.startRunning()
             
             let vedioOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
-            vedioOutput.videoSettings = NSDictionary(dictionary: [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]) as [NSObject : AnyObject]
+            vedioOutput.videoSettings = refView.outputSettings
             session.addOutput(vedioOutput)
             
             let queue: dispatch_queue_t = dispatch_queue_create("vedio", nil)
             vedioOutput.setSampleBufferDelegate(self, queue: queue)
-            
+            session.commitConfiguration()
         }catch{
             print("error vedio input")
         }
@@ -115,6 +119,7 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
+        
         let imageBuffer: CVImageBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer)!
         if CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess{
             let bufferPtr = UnsafeMutablePointer<UInt8>(CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0))
