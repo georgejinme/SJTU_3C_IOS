@@ -9,11 +9,21 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-    var client: UDPClient?
+class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, EMCallManagerDelegate {
+    var statusLabel: UILabel?
+    var videoConnect = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        client = UDPClient(addr: "192.168.1.130", port: 80)
+        initStatusView()
+        EaseMob.sharedInstance().chatManager.asyncLoginWithUsername("3c", password: "941102", completion: {userinfo, error in
+            if (error == nil){
+                print("login success")
+                print(userinfo)
+                EaseMob.sharedInstance().callManager.addDelegate(self, delegateQueue: nil)
+            }else{
+                print("login error")
+            }
+        }, onQueue: nil)
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -51,14 +61,6 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let image = imageFromSampleBuffer(sampleBuffer)
         let data = UIImageJPEGRepresentation(image, 1.0)
         let imageData = data?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-        let (success, errmsg) = client!.send(str: imageData!)
-        print(imageData!)
-        if (success){
-            print("success")
-        }else{
-            print("send: " + errmsg)
-        }
-        //print(image)
     }
     
     func imageFromSampleBuffer(sampleBuffer: CMSampleBufferRef) -> UIImage{
@@ -80,6 +82,60 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func initStatusView(){
+        statusLabel = UILabel(frame: CGRectMake(0, 20, self.view.frame.size.width, 30))
+        statusLabel?.text = "Status"
+        statusLabel?.textAlignment = NSTextAlignment.Center
+        self.view.addSubview(statusLabel!)
+    }
+    
+    func callSessionStatusChanged(callSession: EMCallSession!, changeReason reason: EMCallStatusChangedReason, error: EMError!) {
+        if (error != nil){
+            let alert = UIAlertView(title: "Error", message: error.description, delegate: self, cancelButtonTitle: "Sure")
+            alert.show()
+            statusLabel?.text = "Call Fail"
+            return
+        }
+        
+        if (callSession.status == EMCallSessionStatus.eCallSessionStatusDisconnected){
+            if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
+                statusLabel?.text = "Call Cancel"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Reject){
+                statusLabel?.text = "Call Reject"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Busy){
+                statusLabel?.text = "Call Busy"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Null){
+                statusLabel?.text = "Call Over(Me)"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Offline){
+                statusLabel?.text = "Call Offline"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_NoResponse){
+                statusLabel?.text = "Call No Response"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
+                statusLabel?.text = "Call Over(Other)"
+            }else if (reason == EMCallStatusChangedReason.eCallReason_Failure){
+                statusLabel?.text = "Call Fail"
+            }
+        }else if (callSession.status == EMCallSessionStatus.eCallSessionStatusAccepted){
+            if (callSession.connectType == EMCallConnectType.eCallConnectTypeRelay){
+                statusLabel?.text = "Call Speak Relay"
+            }else if (callSession.connectType == EMCallConnectType.eCallConnectTypeDirect){
+                statusLabel?.text = "Call Speak Direct"
+            }else{
+                statusLabel?.text = "Call Speak"
+            }
+        }
+        
+        if (!videoConnect){
+            EaseMob.sharedInstance().callManager.asyncAnswerCall(callSession.sessionId)
+            videoConnect = true
+            initVideoCall()
+        }
+    }
+    
+    func initVideoCall(){
+        
     }
 
 }
