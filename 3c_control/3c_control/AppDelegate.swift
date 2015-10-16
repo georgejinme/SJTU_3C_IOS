@@ -21,7 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         EaseMob.sharedInstance().registerSDKWithAppKey("gougoumemeda#3c", apnsCertName: "com.gougoumemeda.3c")
         EaseMob.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-    
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.backgroundColor = UIColor.whiteColor()
+        self.window!.rootViewController = ViewController()
+        self.window!.makeKeyAndVisible()
         return true
     }
 

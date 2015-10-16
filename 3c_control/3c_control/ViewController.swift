@@ -9,122 +9,38 @@
 import UIKit
 import CoreBluetooth
 
-class ViewController: UITabBarController, CBCentralManagerDelegate, EMCallManagerDelegate {
-    
-    var vedioView: OpenGLView20?
-    var blueTooth: CBCentralManager?
-    var videoCall: EMCallSession?
-    var statusLabel: UILabel?
-
+class ViewController: UIViewController {
     override func viewDidLoad() {
+        initUI()
         super.viewDidLoad()
-        initVideoView()
-        EaseMob.sharedInstance().chatManager.asyncLoginWithUsername("3ccontrol", password: "941102", completion: {userinfo, error in
-            if (error == nil){
-                print("login success")
-                print(userinfo)
-                self.initVideoCall()
-            }else{
-                print("login error")
-            }
-        }, onQueue: nil)
-        //initBlueTooth()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func initVideoView(){
-        vedioView = OpenGLView20(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
-        vedioView?.backgroundColor = UIColor.clearColor()
-        vedioView?.sessionPreset = AVCaptureSessionPreset352x288
-        self.view.addSubview(vedioView!)
+    func initUI(){
+        let videoButton = UIButton(frame: CGRectMake(0, self.view.frame.size.height / 2, self.view.frame.size.width / 2, 50))
+        videoButton.setTitle("摄像头", forState: UIControlState.Normal)
+        videoButton.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        videoButton.addTarget(self, action: "video:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(videoButton)
         
-        statusLabel = UILabel(frame: CGRectMake(0, 20, self.view.frame.size.width, 30))
-        statusLabel?.text = "Status"
-        statusLabel?.textAlignment = NSTextAlignment.Center
-        self.view.addSubview(statusLabel!)
+        let controlButton = UIButton(frame: CGRectMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2, self.view.frame.size.width / 2, 50))
+        controlButton.setTitle("控制机", forState: UIControlState.Normal)
+        controlButton.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+        controlButton.addTarget(self, action: "control:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(controlButton)
+    }
+    func video(sender: UIButton){
+        self.presentViewController(videoController(), animated: true, completion: nil)
     }
     
-    func initBlueTooth(){
-        blueTooth = CBCentralManager(delegate: self, queue: nil)
-        blueTooth?.delegate = self
-        blueTooth?.scanForPeripheralsWithServices(nil, options: nil)
+    func control(sender: UIButton){
+        self.presentViewController(tabbarController(), animated: true, completion: nil)
     }
-    
-    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        print("blue tooth did discover peripheral")
-        self.blueTooth?.connectPeripheral(peripheral, options: NSDictionary(dictionary: [CBConnectPeripheralOptionNotifyOnDisconnectionKey: NSNumber(bool: true)]) as? [String : AnyObject])
-    }
-    
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        print("blue tooth did connect")
-        
-    }
-    func centralManagerDidUpdateState(central: CBCentralManager) {
-        print("Central Manager is initialized")
-        switch central.state{
-        case CBCentralManagerState.Unauthorized:
-            print("The app is not authorized to use Bluetooth low energy")
-        case CBCentralManagerState.PoweredOff:
-            print("Bluetooth is currently powered off")
-        case CBCentralManagerState.PoweredOn:
-            print("Bluetooth is currently powered on and available to use")
-        default:break
-        }
-    }
-    
-    func initVideoCall(){
-        statusLabel?.text = "Call..."
-        EaseMob.sharedInstance().callManager.addDelegate(self, delegateQueue: nil)
-        videoCall = EaseMob.sharedInstance().callManager.asyncMakeVideoCall("3c", timeout: 5, error: nil)
-        videoCall?.displayView = self.vedioView
-        EaseMob.sharedInstance().callManager.processPreviewData(nil, width: 0, height: 0)
-    }
-    
-    func callSessionStatusChanged(callSession: EMCallSession!, changeReason reason: EMCallStatusChangedReason, error: EMError!) {
-        if (videoCall?.sessionId != callSession.sessionId){
-            return
-        }
-        if (error != nil){
-            let alert = UIAlertView(title: "Error", message: error.description, delegate: self, cancelButtonTitle: "Sure")
-            alert.show()
-            statusLabel?.text = "Call Fail"
-            return
-        }
-        if (callSession.status == EMCallSessionStatus.eCallSessionStatusDisconnected){
-            if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
-                statusLabel?.text = "Call Cancel"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Reject){
-                statusLabel?.text = "Call Reject"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Busy){
-                statusLabel?.text = "Call Busy"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Null){
-                statusLabel?.text = "Call Over(Me)"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Offline){
-                statusLabel?.text = "Call Offline"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_NoResponse){
-                statusLabel?.text = "Call No Response"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
-                statusLabel?.text = "Call Over(Other)"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Failure){
-                statusLabel?.text = "Call Fail"
-            }
-        }else if (callSession.status == EMCallSessionStatus.eCallSessionStatusAccepted){
-            if (callSession.connectType == EMCallConnectType.eCallConnectTypeRelay){
-                statusLabel?.text = "Call Speak Relay"
-            }else if (callSession.connectType == EMCallConnectType.eCallConnectTypeDirect){
-                statusLabel?.text = "Call Speak Direct"
-            }else{
-                statusLabel?.text = "Call Speak"
-            }
-        }
-        
-    }
-
 
 }
 

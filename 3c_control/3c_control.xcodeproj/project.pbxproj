@@ -17,9 +17,11 @@
 		FF5B75981BCE9E9500B90C19 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FF5B75971BCE9E9500B90C19 /* libresolv.tbd */; };
 		FF5B76781BCF6C7600B90C19 /* libEaseMobClientSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF5B76741BCF6C7600B90C19 /* libEaseMobClientSDK.a */; settings = {ASSET_TAGS = (); }; };
 		FF5B767A1BCF6C7600B90C19 /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FF5B76771BCF6C7600B90C19 /* EaseMob.bundle */; settings = {ASSET_TAGS = (); }; };
+		FF5B77131BD134D000B90C19 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B77121BD134D000B90C19 /* TabbarController.swift */; settings = {ASSET_TAGS = (); }; };
+		FF5B77151BD1356E00B90C19 /* VideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5B77141BD1356E00B90C19 /* VideoController.swift */; settings = {ASSET_TAGS = (); }; };
+		FF5B77191BD13A2100B90C19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF5B77171BD13A2100B90C19 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
 		FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E43B1BC88D670000441C /* AppDelegate.swift */; };
 		FF61E43E1BC88D670000441C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E43D1BC88D670000441C /* ViewController.swift */; };
-		FF61E4411BC88D670000441C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF61E43F1BC88D670000441C /* Main.storyboard */; };
 		FF61E4431BC88D670000441C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF61E4421BC88D670000441C /* Assets.xcassets */; };
 		FF61E4461BC88D670000441C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF61E4441BC88D670000441C /* LaunchScreen.storyboard */; };
 		FF61E4511BC88D670000441C /* _c_controlTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF61E4501BC88D670000441C /* _c_controlTests.swift */; };
@@ -154,10 +156,12 @@
 		FF5B76741BCF6C7600B90C19 /* libEaseMobClientSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDK.a; sourceTree = "<group>"; };
 		FF5B76751BCF6C7600B90C19 /* libEaseMobClientSDKLite.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEaseMobClientSDKLite.a; sourceTree = "<group>"; };
 		FF5B76771BCF6C7600B90C19 /* EaseMob.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EaseMob.bundle; sourceTree = "<group>"; };
+		FF5B77121BD134D000B90C19 /* TabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		FF5B77141BD1356E00B90C19 /* VideoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoController.swift; sourceTree = "<group>"; };
+		FF5B77181BD13A2100B90C19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF61E4381BC88D670000441C /* 3c_control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 3c_control.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF61E43B1BC88D670000441C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FF61E43D1BC88D670000441C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FF61E4401BC88D670000441C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FF61E4421BC88D670000441C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF61E4451BC88D670000441C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF61E4471BC88D670000441C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -545,9 +549,11 @@
 			children = (
 				FF61E43B1BC88D670000441C /* AppDelegate.swift */,
 				FF61E43D1BC88D670000441C /* ViewController.swift */,
-				FF61E43F1BC88D670000441C /* Main.storyboard */,
+				FF5B77121BD134D000B90C19 /* TabbarController.swift */,
+				FF5B77141BD1356E00B90C19 /* VideoController.swift */,
 				FF61E4421BC88D670000441C /* Assets.xcassets */,
 				FF61E4441BC88D670000441C /* LaunchScreen.storyboard */,
+				FF5B77171BD13A2100B90C19 /* Main.storyboard */,
 				FF61E4471BC88D670000441C /* Info.plist */,
 				FF61E4691BC88E1B0000441C /* ButtonControlController.swift */,
 				FF61E46B1BC88EA60000441C /* SoundControlController.swift */,
@@ -684,7 +690,7 @@
 				FF61E4461BC88D670000441C /* LaunchScreen.storyboard in Resources */,
 				FF61E4431BC88D670000441C /* Assets.xcassets in Resources */,
 				FF5B767A1BCF6C7600B90C19 /* EaseMob.bundle in Resources */,
-				FF61E4411BC88D670000441C /* Main.storyboard in Resources */,
+				FF5B77191BD13A2100B90C19 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,9 +718,11 @@
 				FF61E43E1BC88D670000441C /* ViewController.swift in Sources */,
 				FF61E46E1BC88EC10000441C /* GestureControlController.swift in Sources */,
 				FF5B74D51BCE497C00B90C19 /* GravityControlController.swift in Sources */,
+				FF5B77151BD1356E00B90C19 /* VideoController.swift in Sources */,
 				FF61E46C1BC88EA60000441C /* SoundControlController.swift in Sources */,
 				FF61E43C1BC88D670000441C /* AppDelegate.swift in Sources */,
 				FF61E46A1BC88E1C0000441C /* ButtonControlController.swift in Sources */,
+				FF5B77131BD134D000B90C19 /* TabbarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,10 +758,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FF61E43F1BC88D670000441C /* Main.storyboard */ = {
+		FF5B77171BD13A2100B90C19 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FF61E4401BC88D670000441C /* Base */,
+				FF5B77181BD13A2100B90C19 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
