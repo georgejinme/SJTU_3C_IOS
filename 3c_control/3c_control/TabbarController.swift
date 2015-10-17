@@ -9,13 +9,10 @@
 import UIKit
 import CoreBluetooth
 
-class tabbarController: UITabBarController, CBCentralManagerDelegate, EMCallManagerDelegate {
-    
-    var vedioView: OpenGLView20?
+class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUdpSocketDelegate {
+    var video: UIImageView?
     var blueTooth: CBCentralManager?
-    var videoCall: EMCallSession?
-    var statusLabel: UILabel?
-    
+    var udpSocket: GCDAsyncUdpSocket?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBar.barTintColor = UIColor.whiteColor()
@@ -33,15 +30,7 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, EMCallMana
         self.addChildViewController(gravity)
         self.view.backgroundColor = UIColor.whiteColor()
         initVideoView()
-        EaseMob.sharedInstance().chatManager.asyncLoginWithUsername("3ccontrol", password: "941102", completion: {userinfo, error in
-            if (error == nil){
-                print("login success")
-                print(userinfo)
-                self.initVideoCall()
-            }else{
-                print("login error")
-            }
-            }, onQueue: nil)
+        initSocket()
         //initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -52,21 +41,26 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, EMCallMana
     }
     
     func initVideoView(){
-        vedioView = OpenGLView20(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
-        vedioView?.backgroundColor = UIColor.clearColor()
-        vedioView?.sessionPreset = AVCaptureSessionPreset352x288
-        self.view.addSubview(vedioView!)
-        
-        statusLabel = UILabel(frame: CGRectMake(0, 20, self.view.frame.size.width, 30))
-        statusLabel?.text = "Status"
-        statusLabel?.textAlignment = NSTextAlignment.Center
-        self.view.addSubview(statusLabel!)
+        video = UIImageView(frame: CGRectMake(0, 0, self.view.frame.size.width, 300))
+        video?.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(video!)
     }
     
     func initBlueTooth(){
         blueTooth = CBCentralManager(delegate: self, queue: nil)
         blueTooth?.delegate = self
         blueTooth?.scanForPeripheralsWithServices(nil, options: nil)
+    }
+    
+    func initSocket(){
+        udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: dispatch_get_main_queue())
+        do{
+            try udpSocket!.bindToPort(12345)
+            try udpSocket!.beginReceiving()
+            print("receiving")
+        }catch{
+            print("bind error")
+        }
     }
     
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
@@ -90,55 +84,12 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, EMCallMana
         default:break
         }
     }
-    
-    func initVideoCall(){
-        statusLabel?.text = "Call..."
-        EaseMob.sharedInstance().callManager.addDelegate(self, delegateQueue: nil)
-        videoCall = EaseMob.sharedInstance().callManager.asyncMakeVideoCall("3cvideo", timeout: 5, error: nil)
-        videoCall?.displayView = self.vedioView
-        EaseMob.sharedInstance().callManager.processPreviewData(nil, width: 0, height: 0)
+    func udpSocket(sock: GCDAsyncUdpSocket!, didReceiveData data: NSData!, fromAddress address: NSData!, withFilterContext filterContext: AnyObject!) {
+        video?.image = UIImage(data: data)
     }
-    
-    func callSessionStatusChanged(callSession: EMCallSession!, changeReason reason: EMCallStatusChangedReason, error: EMError!) {
-        if (videoCall?.sessionId != callSession.sessionId){
-            return
-        }
-        if (error != nil){
-            let alert = UIAlertView(title: "Error", message: error.description, delegate: self, cancelButtonTitle: "Sure")
-            alert.show()
-            statusLabel?.text = "Call Fail"
-            return
-        }
-        if (callSession.status == EMCallSessionStatus.eCallSessionStatusDisconnected){
-            if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
-                statusLabel?.text = "Call Cancel"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Reject){
-                statusLabel?.text = "Call Reject"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Busy){
-                statusLabel?.text = "Call Busy"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Null){
-                statusLabel?.text = "Call Over(Me)"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Offline){
-                statusLabel?.text = "Call Offline"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_NoResponse){
-                statusLabel?.text = "Call No Response"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
-                statusLabel?.text = "Call Over(Other)"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Failure){
-                statusLabel?.text = "Call Fail"
-            }
-        }else if (callSession.status == EMCallSessionStatus.eCallSessionStatusAccepted){
-            if (callSession.connectType == EMCallConnectType.eCallConnectTypeRelay){
-                statusLabel?.text = "Call Speak Relay"
-            }else if (callSession.connectType == EMCallConnectType.eCallConnectTypeDirect){
-                statusLabel?.text = "Call Speak Direct"
-            }else{
-                statusLabel?.text = "Call Speak"
-            }
-        }
         
-    }
-    
-    
 }
+    
+    
+
 

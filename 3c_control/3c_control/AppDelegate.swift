@@ -18,10 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let soundID = "appid=561d1815"
         IFlySpeechUtility.createUtility(soundID)
-        
-        EaseMob.sharedInstance().registerSDKWithAppKey("gougoumemeda#3c", apnsCertName: "com.gougoumemeda.3c")
-        EaseMob.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        
+
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.backgroundColor = UIColor.whiteColor()
         self.window!.rootViewController = ViewController()

@@ -8,22 +8,13 @@
 import UIKit
 import AVFoundation
 
-class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, EMCallManagerDelegate {
-    var statusLabel: UILabel?
-    var videoConnect = false
+class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, GCDAsyncUdpSocketDelegate {
+    var udpSocket: GCDAsyncUdpSocket?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        initStatusView()
-        EaseMob.sharedInstance().chatManager.asyncLoginWithUsername("3cvideo", password: "941102", completion: {userinfo, error in
-            if (error == nil){
-                print("login success")
-                print(userinfo)
-                EaseMob.sharedInstance().callManager.addDelegate(self, delegateQueue: nil)
-            }else{
-                print("login error")
-            }
-            }, onQueue: nil)
+        initVideoCall()
+        udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: dispatch_get_main_queue())
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -32,63 +23,11 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
         // Dispose of any resources that can be recreated.
     }
     
-    func initStatusView(){
-        statusLabel = UILabel(frame: CGRectMake(0, 20, self.view.frame.size.width, 30))
-        statusLabel?.text = "Status"
-        statusLabel?.textAlignment = NSTextAlignment.Center
-        self.view.addSubview(statusLabel!)
-    }
     
-    func callSessionStatusChanged(callSession: EMCallSession!, changeReason reason: EMCallStatusChangedReason, error: EMError!) {
-        if (error != nil){
-            let alert = UIAlertView(title: "Error", message: error.description, delegate: self, cancelButtonTitle: "Sure")
-            alert.show()
-            statusLabel?.text = "Call Fail"
-            return
-        }
-        
-        if (callSession.status == EMCallSessionStatus.eCallSessionStatusDisconnected){
-            if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
-                statusLabel?.text = "Call Cancel"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Reject){
-                statusLabel?.text = "Call Reject"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Busy){
-                statusLabel?.text = "Call Busy"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Null){
-                statusLabel?.text = "Call Over(Me)"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Offline){
-                statusLabel?.text = "Call Offline"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_NoResponse){
-                statusLabel?.text = "Call No Response"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Hangup){
-                statusLabel?.text = "Call Over(Other)"
-            }else if (reason == EMCallStatusChangedReason.eCallReason_Failure){
-                statusLabel?.text = "Call Fail"
-            }
-        }else if (callSession.status == EMCallSessionStatus.eCallSessionStatusAccepted){
-            if (callSession.connectType == EMCallConnectType.eCallConnectTypeRelay){
-                statusLabel?.text = "Call Speak Relay"
-            }else if (callSession.connectType == EMCallConnectType.eCallConnectTypeDirect){
-                statusLabel?.text = "Call Speak Direct"
-            }else{
-                statusLabel?.text = "Call Speak"
-            }
-        }
-        
-        if (!videoConnect){
-            EaseMob.sharedInstance().callManager.asyncAnswerCall(callSession.sessionId)
-            videoConnect = true
-            initVideoCall(callSession)
-        }
-    }
     
-    func initVideoCall(videoSession: EMCallSession){
-        let refView = OpenGLView20(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
-        refView.backgroundColor = UIColor.clearColor()
-        refView.sessionPreset = AVCaptureSessionPreset352x288
-        
+    func initVideoCall(){
         let session: AVCaptureSession = AVCaptureSession()
-        session.sessionPreset = refView.sessionPreset
+        session.sessionPreset = AVCaptureSessionPresetMedium
         
         let device: AVCaptureDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         do {
@@ -105,7 +44,7 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
             session.startRunning()
             
             let vedioOutput: AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
-            vedioOutput.videoSettings = refView.outputSettings
+            vedioOutput.videoSettings = NSDictionary(dictionary: [kCVPixelBufferPixelFormatTypeKey: NSNumber(unsignedInt: kCVPixelFormatType_32BGRA)]) as [NSObject : AnyObject]
             session.addOutput(vedioOutput)
             
             let queue: dispatch_queue_t = dispatch_queue_create("vedio", nil)
@@ -114,72 +53,25 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
         }catch{
             print("error vedio input")
         }
-        
-        videoSession.displayView = nil
+
     }
     
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         
         let imageBuffer: CVImageBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer)!
-        if CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess{
-            let bufferPtr = UnsafeMutablePointer<UInt8>(CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0))
-            let bufferPtr1 = UnsafeMutablePointer<UInt8>(CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 1))
-            
-            let width: size_t = CVPixelBufferGetWidth(imageBuffer)
-            let height: size_t = CVPixelBufferGetHeight(imageBuffer)
-            
-            let bytesrow0: size_t = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 0)
-            let bytesrow1: size_t = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 1)
-            
-            let imageDataBuffer = UnsafeMutablePointer<UInt8>.alloc(width * height * 3 / 2)
-            let pY = bufferPtr
-            var pUV = bufferPtr1
-            var pU = imageDataBuffer + width * height
-            var pV = pU + width * height / 4
-            for (var i = 0; i < height; i++){
-                memcpy(imageDataBuffer + i * width, pY + i * bytesrow0, width)
-            }
-            
-            for (var j = 0; j < height / 2; j++){
-                for (var i = 0; i < width / 2; i++){
-                    pU.memory = pUV[i << 1]
-                    pV.memory = pUV[(i << 1) + 1]
-                    ++pU
-                    ++pV
-                }
-                pUV += bytesrow1
-            }
-            
-            YUV420spRotate90(bufferPtr, src: imageDataBuffer, srcWidth: width, srcHeight: height)
-            EaseMob.sharedInstance().callManager.processPreviewData(UnsafeMutablePointer<Int8>(bufferPtr), width: Int32(width), height: Int32(height))
-            CVPixelBufferUnlockBaseAddress(imageBuffer, 0)
-        }
+        CVPixelBufferLockBaseAddress(imageBuffer, 0)
+        let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
+        let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
+        let width = CVPixelBufferGetWidth(imageBuffer)
+        let height = CVPixelBufferGetHeight(imageBuffer)
+        let colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()!
+        let context: CGContextRef = CGBitmapContextCreate(baseAddress, width, height, 8, bytesPerRow, colorSpace, CGBitmapInfo.ByteOrder32Little.rawValue | CGImageAlphaInfo.PremultipliedFirst.rawValue)!
+        let quartzImage: CGImageRef = CGBitmapContextCreateImage(context)!
+        CVPixelBufferUnlockBaseAddress(imageBuffer, 0)
+        
+        let displayImage = UIImage(CGImage: quartzImage, scale: 1.0, orientation: UIImageOrientation.Up)
+        let passImage = UIImageJPEGRepresentation(displayImage, 0.1)
+        udpSocket?.sendData(passImage, toHost: "192.168.1.101", port: 12345, withTimeout: -1, tag: 0)
     }
-    
-    func YUV420spRotate90(dst: UnsafeMutablePointer<UInt8>, src: UnsafeMutablePointer<UInt8>, srcWidth: size_t, srcHeight: size_t){
-        let wh: size_t = srcWidth * srcHeight
-        let uvHeight: size_t = srcHeight >> 1
-        let uvWidth: size_t = srcWidth >> 1
-        let uvwh: size_t = wh >> 2
-        var k = 0
-        for (var i = 0; i < srcWidth; i++){
-            var nPos = wh - srcWidth
-            for (var j = 0; k < srcHeight; j++){
-                dst[k] = src[nPos + i]
-                k++
-                nPos -= srcWidth
-            }
-        }
-        for (var i = 0; i < uvWidth; i++){
-            var nPos = wh + uvwh - uvWidth
-            for (var j = 0; j < uvHeight; j++){
-                dst[k] = src[nPos + i]
-                dst[k + uvwh] = src[nPos + i + uvwh]
-                k++
-                nPos -= uvWidth
-            }
-        }
-    }
-    
 }
 
