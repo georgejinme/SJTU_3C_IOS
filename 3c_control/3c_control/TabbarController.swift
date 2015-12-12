@@ -9,9 +9,10 @@
 import UIKit
 import CoreBluetooth
 
-class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUdpSocketDelegate {
+class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUdpSocketDelegate, CBPeripheralDelegate {
     var video: UIImageView?
     var blueTooth: CBCentralManager?
+    var allPeripherals = Array<CBPeripheral>()
     var udpSocket: GCDAsyncUdpSocket?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,7 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
         self.view.backgroundColor = UIColor.whiteColor()
         initVideoView()
         initSocket()
-        //initBlueTooth()
+        initBlueTooth()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -49,7 +50,6 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     func initBlueTooth(){
         blueTooth = CBCentralManager(delegate: self, queue: nil)
         blueTooth?.delegate = self
-        blueTooth?.scanForPeripheralsWithServices(nil, options: nil)
     }
     
     func initSocket(){
@@ -65,13 +65,27 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print("blue tooth did discover peripheral")
-        self.blueTooth?.connectPeripheral(peripheral, options: NSDictionary(dictionary: [CBConnectPeripheralOptionNotifyOnDisconnectionKey: NSNumber(bool: true)]) as? [String : AnyObject])
+        if (peripheral.name == "BT05"){
+            self.allPeripherals.append(peripheral)
+            peripheral.delegate = self
+            blueTooth?.stopScan()
+            self.blueTooth!.connectPeripheral(peripheral, options: nil)
+        }
     }
+    
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         print("blue tooth did connect")
         
     }
+    
+    func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        print("fail to connect")
+    }
+    func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        print("disconnect")
+    }
+    
     func centralManagerDidUpdateState(central: CBCentralManager) {
         print("Central Manager is initialized")
         switch central.state{
@@ -81,6 +95,7 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
             print("Bluetooth is currently powered off")
         case CBCentralManagerState.PoweredOn:
             print("Bluetooth is currently powered on and available to use")
+            blueTooth?.scanForPeripheralsWithServices(nil, options: nil)
         default:break
         }
     }
