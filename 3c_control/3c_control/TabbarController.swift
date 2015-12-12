@@ -12,7 +12,9 @@ import CoreBluetooth
 class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUdpSocketDelegate, CBPeripheralDelegate {
     var video: UIImageView?
     var blueTooth: CBCentralManager?
-    var allPeripherals = Array<CBPeripheral>()
+    var peripherals: CBPeripheral?
+    var services: CBService?
+    var characteristics: CBCharacteristic?
     var udpSocket: GCDAsyncUdpSocket?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +68,8 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print("blue tooth did discover peripheral")
         if (peripheral.name == "BT05"){
-            self.allPeripherals.append(peripheral)
-            peripheral.delegate = self
+            self.peripherals = peripheral
+            self.peripherals!.delegate = self
             blueTooth?.stopScan()
             self.blueTooth!.connectPeripheral(peripheral, options: nil)
         }
@@ -76,7 +78,7 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         print("blue tooth did connect")
-        
+        self.peripherals?.discoverServices(nil)
     }
     
     func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
@@ -84,6 +86,28 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     }
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         print("disconnect")
+    }
+    
+    func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
+        print("CBPeripheralDelegate didDiscoverServices")
+        for service in peripheral.services!{
+            print("Discover service \(service)")
+            if (service.UUID == CBUUID(string: "FFE0")){
+                self.services = service
+                self.peripherals?.discoverCharacteristics(nil, forService: self.services!)
+            }
+        }
+    }
+    
+    func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
+        for characteristic in service.characteristics!{
+            if (service == self.services! && characteristic.UUID == CBUUID(string: "FFE1")){
+                print("FFEO Discover characteristic \(characteristic)")
+                self.characteristics = characteristic
+                let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
+                self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            }
+        }
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
