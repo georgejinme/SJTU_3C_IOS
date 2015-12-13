@@ -13,6 +13,12 @@ import CoreBluetooth
 class ButtonControlController: UIViewController{
     var peripherals: CBPeripheral?
     var characteristics: CBCharacteristic?
+    
+    var upClick = 1
+    var downClick = 1
+    var leftClick = 1
+    var rightClick = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -52,27 +58,60 @@ class ButtonControlController: UIViewController{
         down.setTitle("后退", forState: UIControlState.Normal)
         down.addTarget(self, action: "down:", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(down)
+        
+        let stop: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.size.width, 50))
+        stop.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        stop.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 80)
+        stop.setTitle("停止", forState: UIControlState.Normal)
+        stop.addTarget(self, action: "stop:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(stop)
     }
     
     func left(sender:UIButton){
         print("left")
-        let data = "L".dataUsingEncoding(NSUTF8StringEncoding)
+        let speed = leftClick * 300
+        rightClick = 0
+        upClick = 0
+        downClick = 0
+        let data = "S\(speed)\nL".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
     func right(sender:UIButton){
         print("right")
-        let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+        let speed = rightClick * 300
+        leftClick = 0
+        upClick = 0
+        downClick = 0
+        let data = "S\(speed)\nR".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     func up(sender:UIButton){
         print("up")
-        let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
+        let speed = upClick * 300
+        rightClick = 0
+        leftClick = 0
+        downClick = 0
+        let data = "S\(speed)\nA".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     func down(sender:UIButton){
         print("down")
-        let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
+        let speed = downClick * 300
+        rightClick = 0
+        upClick = 0
+        leftClick = 0
+        let data = "S\(speed)\nB".dataUsingEncoding(NSUTF8StringEncoding)
+        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+    }
+    
+    func stop(sender:UIButton){
+        print("stop")
+        leftClick = 0
+        rightClick = 0
+        upClick = 0
+        downClick = 0
+        let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
 }

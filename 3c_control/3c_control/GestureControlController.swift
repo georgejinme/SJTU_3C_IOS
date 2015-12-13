@@ -27,13 +27,13 @@ class GestureControlController: UIViewController{
     
     func initUI(){
         let left: UILabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.size.width / 2, 50))
-        left.center = CGPointMake(self.view.frame.size.width / 4, self.view.frame.size.height - 200)
+        left.center = CGPointMake(self.view.frame.size.width / 4, self.view.frame.size.height - 250)
         left.text = "向左滑动以左转"
         left.textAlignment = NSTextAlignment.Center
         self.view.addSubview(left)
         
         let right: UILabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.size.width / 2, 50))
-        right.center = CGPointMake(self.view.frame.size.width / 4 * 3, self.view.frame.size.height - 200)
+        right.center = CGPointMake(self.view.frame.size.width / 4 * 3, self.view.frame.size.height - 250)
         right.text = "向右滑动以右转"
         right.textAlignment = NSTextAlignment.Center
         self.view.addSubview(right)
@@ -45,10 +45,17 @@ class GestureControlController: UIViewController{
         self.view.addSubview(up)
         
         let down: UILabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.size.width / 2, 50))
-        down.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 100)
+        down.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 200)
         down.text = "向下滑动以倒退"
         down.textAlignment = NSTextAlignment.Center
         self.view.addSubview(down)
+        
+        let stop: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.size.width, 50))
+        stop.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        stop.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 80)
+        stop.setTitle("停止", forState: UIControlState.Normal)
+        stop.addTarget(self, action: "stop:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(stop)
     }
     
     func initGesture(){
