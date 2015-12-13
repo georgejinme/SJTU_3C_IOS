@@ -8,10 +8,14 @@
 
 import Foundation
 import UIKit
+import CoreBluetooth
 
 class SoundControlController: UIViewController, IFlySpeechRecognizerDelegate{
     var speechRecognizer: IFlySpeechRecognizer?
     var soundText: UITextView?
+    
+    var peripherals: CBPeripheral?
+    var characteristics: CBCharacteristic?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +103,19 @@ class SoundControlController: UIViewController, IFlySpeechRecognizerDelegate{
             resJSON += each as! String
         }
         let soundRes = stringFromJson(resJSON)
+        if (soundRes == "前进"){
+            let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "后腿"){
+            let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "左转"){
+            let data = "L".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "右转"){
+            let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }
         self.soundText?.text = soundRes
     }
     

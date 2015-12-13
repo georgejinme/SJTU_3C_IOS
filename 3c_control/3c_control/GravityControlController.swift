@@ -72,7 +72,7 @@ class GravityControlController: UIViewController{
         let motion = CMMotionManager()
         let queue = NSOperationQueue()
         if (motion.accelerometerAvailable){
-            motion.accelerometerUpdateInterval = 0.1
+            motion.accelerometerUpdateInterval = 0.2
             motion.startAccelerometerUpdatesToQueue(queue, withHandler: {(accelerometerData, error) in
                 if (error != nil){
                     motion.stopAccelerometerUpdates()

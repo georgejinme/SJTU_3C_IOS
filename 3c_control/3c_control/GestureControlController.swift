@@ -8,8 +8,11 @@
 
 import Foundation
 import UIKit
+import CoreBluetooth
 
 class GestureControlController: UIViewController{
+    var peripherals: CBPeripheral?
+    var characteristics: CBCharacteristic?
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -69,17 +72,25 @@ class GestureControlController: UIViewController{
     
     func leftSwipe(sender: AnyObject){
         print("left swipe")
+        let data = "L".dataUsingEncoding(NSUTF8StringEncoding)
+        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
     func rightSwipe(sender: AnyObject){
         print("right swipe")
+        let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
     func upSwipe(sender: AnyObject){
         print("up swipe")
+        let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
+        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
     func downSwipe(sender: AnyObject){
         print("down swipe")
+        let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
+        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
 }

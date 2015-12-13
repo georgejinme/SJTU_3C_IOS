@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "3c_control/SoundControlController.swift"
-            timestampString = "466697150.6161"
+            timestampString = "471704018.283737"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "initRecognizer()"
             landmarkType = "5">
          </BreakpointContent>

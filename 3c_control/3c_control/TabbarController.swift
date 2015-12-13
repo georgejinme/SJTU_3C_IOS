@@ -16,21 +16,26 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     var services: CBService?
     var characteristics: CBCharacteristic?
     var udpSocket: GCDAsyncUdpSocket?
+    
+    var button: ButtonControlController?
+    var sound: SoundControlController?
+    var gesture: GestureControlController?
+    var gravity: GravityControlController?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBar.barTintColor = UIColor.whiteColor()
-        let button = ButtonControlController()
-        button.tabBarItem.title = "button"
-        let sound = SoundControlController()
-        sound.tabBarItem.title = "sound"
-        let gesture = GestureControlController()
-        gesture.tabBarItem.title = "gesture"
-        let gravity = GravityControlController()
-        gravity.tabBarItem.title = "gravity"
-        self.addChildViewController(button)
-        self.addChildViewController(sound)
-        self.addChildViewController(gesture)
-        self.addChildViewController(gravity)
+        button = ButtonControlController()
+        button!.tabBarItem.title = "button"
+        sound = SoundControlController()
+        sound!.tabBarItem.title = "sound"
+        gesture = GestureControlController()
+        gesture!.tabBarItem.title = "gesture"
+        gravity = GravityControlController()
+        gravity!.tabBarItem.title = "gravity"
+        self.addChildViewController(button!)
+        self.addChildViewController(sound!)
+        self.addChildViewController(gesture!)
+        self.addChildViewController(gravity!)
         self.view.backgroundColor = UIColor.whiteColor()
         initVideoView()
         initSocket()
@@ -104,8 +109,12 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
             if (service == self.services! && characteristic.UUID == CBUUID(string: "FFE1")){
                 print("FFEO Discover characteristic \(characteristic)")
                 self.characteristics = characteristic
-                let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
-                self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                button!.peripherals = self.peripherals
+                button!.characteristics = self.characteristics
+                sound!.peripherals = self.peripherals
+                sound!.characteristics = self.characteristics
+                gesture!.peripherals = self.peripherals
+                gesture!.characteristics = self.characteristics
             }
         }
     }
