@@ -15,11 +15,16 @@ class GravityControlController: UIViewController{
     var xl: UILabel?
     var yl: UILabel?
     var zl: UILabel?
+    var peripherals: CBPeripheral?
+    var characteristics: CBCharacteristic?
+    
+    var updating: Bool = false
+    var motion: CMMotionManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        motion = CMMotionManager()
         initUI()
-        initAccelerometer()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -53,12 +58,13 @@ class GravityControlController: UIViewController{
         down.textAlignment = NSTextAlignment.Center
         self.view.addSubview(down)
         
-        let stop: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.size.width, 50))
-        stop.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
-        stop.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 80)
-        stop.setTitle("停止", forState: UIControlState.Normal)
-        stop.addTarget(self, action: "stop:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view.addSubview(stop)
+        let startOrNot: UIButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.size.width, 50))
+        startOrNot.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.5)
+        startOrNot.center = CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height - 80)
+        startOrNot.setTitle("开始/停止", forState: UIControlState.Normal)
+        startOrNot.addTarget(self, action: "startOrNot:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(startOrNot)
+        
         
         xl = UILabel(frame: CGRectMake(0, self.view.frame.size.height - 350, self.view.frame.size.width / 3, 30))
         xl?.text = "x:0"
@@ -77,15 +83,45 @@ class GravityControlController: UIViewController{
     }
     
     func initAccelerometer(){
-        let motion = CMMotionManager()
         let queue = NSOperationQueue()
-        if (motion.accelerometerAvailable){
-            motion.accelerometerUpdateInterval = 0.2
-            motion.startAccelerometerUpdatesToQueue(queue, withHandler: {(accelerometerData, error) in
+        if (self.motion!.accelerometerAvailable){
+            self.motion!.accelerometerUpdateInterval = 0.5
+            self.motion!.startAccelerometerUpdatesToQueue(queue, withHandler: {(accelerometerData, error) in
                 if (error != nil){
-                    motion.stopAccelerometerUpdates()
+                    self.motion!.stopAccelerometerUpdates()
                 }else{
                     dispatch_sync(dispatch_get_main_queue(), {
+                        if (abs(accelerometerData!.acceleration.y) < 0.2 && abs(accelerometerData!.acceleration.x) < 0.2){
+                            let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }
+                        if (accelerometerData!.acceleration.y > 0.3){
+                            let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                            
+                        }else if (accelerometerData!.acceleration.y < -0.3){
+                            let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }
+                        if (accelerometerData!.acceleration.x > 0.6){
+                            let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }else if (accelerometerData!.acceleration.x > 0.4){
+                            let data = "S".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }else if (accelerometerData!.acceleration.x > 0.2){
+                            let data = "T".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }else if (accelerometerData!.acceleration.x < -0.6){
+                            let data = "X".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }else if (accelerometerData!.acceleration.x < -0.4){
+                            let data = "Y".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }else if (accelerometerData!.acceleration.x < -0.2){
+                            let data = "Z".dataUsingEncoding(NSUTF8StringEncoding)
+                            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+                        }
                         self.xl?.text = "x: \(accelerometerData!.acceleration.x)"
                         self.yl?.text = "y: \(accelerometerData!.acceleration.y)"
                         self.zl?.text = "z: \(accelerometerData!.acceleration.z)"
@@ -94,5 +130,15 @@ class GravityControlController: UIViewController{
                 
             })
         }
+    }
+    func startOrNot(sender: UIButton){
+        if (!self.updating){
+            print("start")
+            initAccelerometer()
+        }else{
+            print("stop")
+            motion?.stopAccelerometerUpdates()
+        }
+        self.updating = !self.updating
     }
 }

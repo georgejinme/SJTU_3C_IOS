@@ -70,8 +70,8 @@ class videoController: UIViewController, AVCaptureVideoDataOutputSampleBufferDel
         CVPixelBufferUnlockBaseAddress(imageBuffer, 0)
         
         let displayImage = UIImage(CGImage: quartzImage, scale: 1.0, orientation: UIImageOrientation.Up)
-        let passImage = UIImageJPEGRepresentation(displayImage, 0.1)
-        udpSocket?.sendData(passImage, toHost: "192.168.1.130", port: 12345, withTimeout: -1, tag: 0)
+        let passImage = UIImageJPEGRepresentation(displayImage, 0.02)
+        udpSocket?.sendData(passImage, toHost: "10.187.178.254", port: 12345, withTimeout: -1, tag: 0)
     }
 }
 

@@ -13,6 +13,10 @@ import CoreBluetooth
 class GestureControlController: UIViewController{
     var peripherals: CBPeripheral?
     var characteristics: CBCharacteristic?
+    
+    var leftSwipe = 1
+    var rightSwipe = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -79,25 +83,58 @@ class GestureControlController: UIViewController{
     
     func leftSwipe(sender: AnyObject){
         print("left swipe")
-        let data = "L".dataUsingEncoding(NSUTF8StringEncoding)
-        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        if (leftSwipe == 0){
+            let data = "Z".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++leftSwipe
+        }else if (leftSwipe == 1){
+            let data = "Y".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++leftSwipe
+        }else if (leftSwipe == 2){
+            let data = "X".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }
+        rightSwipe = 0
     }
     
     func rightSwipe(sender: AnyObject){
         print("right swipe")
-        let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
-        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        if (rightSwipe == 0){
+            let data = "T".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++rightSwipe
+        }else if (rightSwipe == 1){
+            let data = "S".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++rightSwipe
+        }else if (rightSwipe == 2){
+            let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }
+        leftSwipe = 0
     }
     
     func upSwipe(sender: AnyObject){
         print("up swipe")
+        leftSwipe = 0
+        rightSwipe = 0
         let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
     func downSwipe(sender: AnyObject){
         print("down swipe")
+        leftSwipe = 0
+        rightSwipe = 0
         let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
+        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+    }
+    func stop(sender: AnyObject){
+        print("stop")
+        leftSwipe = 0
+        rightSwipe = 0
+        let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
 }

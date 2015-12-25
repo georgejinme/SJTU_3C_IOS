@@ -115,6 +115,8 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
                 sound!.characteristics = self.characteristics
                 gesture!.peripherals = self.peripherals
                 gesture!.characteristics = self.characteristics
+                gravity!.peripherals = self.peripherals
+                gravity!.characteristics = self.characteristics
             }
         }
     }
@@ -135,6 +137,7 @@ class tabbarController: UITabBarController, CBCentralManagerDelegate, GCDAsyncUd
     func udpSocket(sock: GCDAsyncUdpSocket!, didReceiveData data: NSData!, fromAddress address: NSData!, withFilterContext filterContext: AnyObject!) {
         video?.image = UIImage(data: data)
     }
+
         
 }
     

@@ -14,8 +14,6 @@ class ButtonControlController: UIViewController{
     var peripherals: CBPeripheral?
     var characteristics: CBCharacteristic?
     
-    var upClick = 1
-    var downClick = 1
     var leftClick = 1
     var rightClick = 1
     
@@ -69,39 +67,49 @@ class ButtonControlController: UIViewController{
     
     func left(sender:UIButton){
         print("left")
-        let speed = leftClick * 300
+        if (leftClick == 0){
+            let data = "Z".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++leftClick
+        }else if (leftClick == 1){
+            let data = "Y".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++leftClick
+        }else if (leftClick == 2){
+            let data = "X".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }
         rightClick = 0
-        upClick = 0
-        downClick = 0
-        let data = "S\(speed)\nL".dataUsingEncoding(NSUTF8StringEncoding)
-        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
     func right(sender:UIButton){
         print("right")
-        let speed = rightClick * 300
+        if (rightClick == 0){
+            let data = "T".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++rightClick
+        }else if (rightClick == 1){
+            let data = "S".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+            ++rightClick
+        }else if (rightClick == 2){
+            let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }
         leftClick = 0
-        upClick = 0
-        downClick = 0
-        let data = "S\(speed)\nR".dataUsingEncoding(NSUTF8StringEncoding)
-        self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     func up(sender:UIButton){
         print("up")
-        let speed = upClick * 300
         rightClick = 0
         leftClick = 0
-        downClick = 0
-        let data = "S\(speed)\nA".dataUsingEncoding(NSUTF8StringEncoding)
+        let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     func down(sender:UIButton){
         print("down")
-        let speed = downClick * 300
         rightClick = 0
-        upClick = 0
         leftClick = 0
-        let data = "S\(speed)\nB".dataUsingEncoding(NSUTF8StringEncoding)
+        let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
@@ -109,8 +117,6 @@ class ButtonControlController: UIViewController{
         print("stop")
         leftClick = 0
         rightClick = 0
-        upClick = 0
-        downClick = 0
         let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
         self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
     }

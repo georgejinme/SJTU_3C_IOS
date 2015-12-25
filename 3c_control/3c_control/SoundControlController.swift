@@ -106,14 +106,29 @@ class SoundControlController: UIViewController, IFlySpeechRecognizerDelegate{
         if (soundRes == "前进"){
             let data = "A".dataUsingEncoding(NSUTF8StringEncoding)
             self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
-        }else if (soundRes == "后腿"){
+        }else if (soundRes == "后退"){
             let data = "B".dataUsingEncoding(NSUTF8StringEncoding)
             self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
         }else if (soundRes == "左转"){
-            let data = "L".dataUsingEncoding(NSUTF8StringEncoding)
+            let data = "Z".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "快速左转"){
+            let data = "Y".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "急左转"){
+            let data = "X".dataUsingEncoding(NSUTF8StringEncoding)
             self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
         }else if (soundRes == "右转"){
+            let data = "T".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "快速右转"){
+            let data = "S".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "急右转"){
             let data = "R".dataUsingEncoding(NSUTF8StringEncoding)
+            self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
+        }else if (soundRes == "停止"){
+            let data = "P".dataUsingEncoding(NSUTF8StringEncoding)
             self.peripherals?.writeValue(data!, forCharacteristic: self.characteristics!, type: CBCharacteristicWriteType.WithoutResponse)
         }
         self.soundText?.text = soundRes
